@@ -2,9 +2,23 @@ public class pracownik {
     int pracownik_id;
     String imie;
     String nazwisko;
-    int pesel;
+    long pesel;
     String haslo;
 
+    public pracownik(int pracownik_id, String imie, String nazwisko, long pesel, String haslo) {
+        this.pracownik_id = pracownik_id;
+        this.imie = imie;
+        this.nazwisko = nazwisko;
+        this.pesel = pesel;
+        this.haslo = haslo;
+    }
+    public pracownik() {
+        this.pracownik_id = 1;
+        this.imie = "";
+        this.nazwisko = "";
+        this.pesel = 123456789101L;
+        this.haslo = "haslo";
+    }
     public int getPracownik_id() {
         return pracownik_id;
     }
@@ -29,11 +43,11 @@ public class pracownik {
         this.nazwisko = nazwisko;
     }
 
-    public int getPesel() {
+    public long getPesel() {
         return pesel;
     }
 
-    public void setPesel(int pesel) {
+    public void setPesel(long pesel) {
         this.pesel = pesel;
     }
 

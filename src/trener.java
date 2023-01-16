@@ -2,8 +2,23 @@ public class trener {
     int trener_id;
     String imie;
     String nazwisko;
-    int pesel;
+    long pesel;
     String haslo;
+
+    public trener(int trener_id, String imie, String nazwisko, long pesel, String haslo) {
+        this.trener_id = trener_id;
+        this.imie = imie;
+        this.nazwisko = nazwisko;
+        this.pesel = pesel;
+        this.haslo = haslo;
+    }
+    public trener() {
+        this.trener_id = 0;
+        this.imie = "";
+        this.nazwisko = "";
+        this.pesel = 0;
+        this.haslo = "";
+    }
 
     public int getTrener_id() {
         return trener_id;
@@ -29,11 +44,11 @@ public class trener {
         this.nazwisko = nazwisko;
     }
 
-    public int getPesel() {
+    public long getPesel() {
         return pesel;
     }
 
-    public void setPesel(int pesel) {
+    public void setPesel(long pesel) {
         this.pesel = pesel;
     }
 

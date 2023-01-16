@@ -3,9 +3,26 @@ public class klient {
     int klient_id;
     String imie;
     String nazwisko;
-    int pesel;
+    long pesel;
     Date data_urodzenia;
     String haslo;
+
+    public klient(int klient_id, String imie, String nazwisko, long pesel, Date data_urodzenia, String haslo) {
+        this.klient_id = klient_id;
+        this.imie = imie;
+        this.nazwisko = nazwisko;
+        this.pesel = pesel;
+        this.data_urodzenia = data_urodzenia;
+        this.haslo = haslo;
+    }
+    public klient() {
+        this.klient_id = 0;
+        this.imie = "";
+        this.nazwisko = "";
+        this.pesel = 0;
+        this.data_urodzenia = null;
+        this.haslo = "";
+    }
     public int getKlient_id() {
         return klient_id;
     }
@@ -30,11 +47,11 @@ public class klient {
         this.nazwisko = nazwisko;
     }
 
-    public int getPesel() {
+    public long getPesel() {
         return pesel;
     }
 
-    public void setPesel(int pesel) {
+    public void setPesel(long pesel) {
         this.pesel = pesel;
     }
 

@@ -91,9 +91,10 @@ public class KarnETDAO {
         int id = myRs.getInt("id");
         boolean premium = myRs.getBoolean("premium");
         Date data_waznosci = myRs.getDate("data_waznosci");
+        Date data_aktywacji = myRs.getDate("data_aktywacji");
         int klient_id = myRs.getInt("klient_id");
 
-        karnet tempKarnet = new karnet(id, premium, data_waznosci, klient_id);
+        karnet tempKarnet = new karnet(id, data_waznosci, data_aktywacji,premium,klient_id);
         return tempKarnet;
     }
 }

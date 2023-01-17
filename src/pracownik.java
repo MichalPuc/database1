@@ -19,6 +19,7 @@ public class pracownik {
         this.pesel = 123456789101L;
         this.haslo = "haslo";
     }
+
     public int getPracownik_id() {
         return pracownik_id;
     }

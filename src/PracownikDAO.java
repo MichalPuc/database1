@@ -26,6 +26,7 @@ public class PracownikDAO {
         }
     }
 
+
     public List<pracownik> searchPracownik(String imie) throws Exception {
         List<pracownik> lista = new ArrayList<>();
         PreparedStatement myStmt1 = null;

@@ -1,18 +1,18 @@
-public class trener {
+public class Trener {
     int trener_id;
     String imie;
     String nazwisko;
     long pesel;
     String haslo;
 
-    public trener(int trener_id, String imie, String nazwisko, long pesel, String haslo) {
+    public Trener(int trener_id, String imie, String nazwisko, long pesel, String haslo) {
         this.trener_id = trener_id;
         this.imie = imie;
         this.nazwisko = nazwisko;
         this.pesel = pesel;
         this.haslo = haslo;
     }
-    public trener() {
+    public Trener() {
         this.trener_id = 0;
         this.imie = "";
         this.nazwisko = "";

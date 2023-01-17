@@ -1,17 +1,17 @@
 import java.sql.Date;
-public class wydarzenie {
+public class Wydarzenie {
     int wydarzenie_id;
     boolean rodzaj;
     Date data;
     int trener_id;
 
-    public wydarzenie(int wydarzenie_id, boolean rodzaj, Date data, int trener_id) {
+    public Wydarzenie(int wydarzenie_id, boolean rodzaj, Date data, int trener_id) {
         this.wydarzenie_id = wydarzenie_id;
         this.rodzaj = rodzaj;
         this.data = data;
         this.trener_id = trener_id;
     }
-    public wydarzenie() {
+    public Wydarzenie() {
         this.wydarzenie_id = 0;
         this.rodzaj = false;
         this.data = null;

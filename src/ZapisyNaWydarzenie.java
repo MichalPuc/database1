@@ -1,12 +1,12 @@
-public class zapisy_na_wydarzenia {
+public class ZapisyNaWydarzenie {
     int klient_id;
     int wydarzenie_id;
 
-    public zapisy_na_wydarzenia(int klient_id, int wydarzenie_id) {
+    public ZapisyNaWydarzenie(int klient_id, int wydarzenie_id) {
         this.klient_id = klient_id;
         this.wydarzenie_id = wydarzenie_id;
     }
-    public zapisy_na_wydarzenia() {
+    public ZapisyNaWydarzenie() {
         this.klient_id = 0;
         this.wydarzenie_id = 0;
     }

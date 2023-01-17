@@ -49,7 +49,7 @@ public class karnetDAO {
         PreparedStatement myStmt2 = null;
         try {
             myStmt2 = Logowanie.myConn.prepareCall("{call dodaj_karnet(?,?,?,?)}");
-            myStmt2.setString(1, karnet.isPremium());
+            myStmt2.setBoolean(1, karnet.isPremium());
             myStmt2.setDate(3, karnet.getData_waznosci());
             myStmt2.setInt(4, karnet.getKlient_id());
 

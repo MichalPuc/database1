@@ -6,10 +6,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class karnetDAO {
+public class KarnetDAO {
 
-    public List<karnet> getAllKarnet() throws Exception {
-        List<karnet> lista = new ArrayList<>();
+    public List<Karnet> getAllKarnet() throws Exception {
+        List<Karnet> lista = new ArrayList<>();
         Statement myStmt1 = null;
         ResultSet myRs = null;
         try {
@@ -17,7 +17,7 @@ public class karnetDAO {
             myRs = myStmt1.executeQuery("select * from karnet");
 
             while (myRs.next()){
-                karnet tempKarnet = convertRowToKarnet(myRs);
+                Karnet tempKarnet = convertRowToKarnet(myRs);
                 lista.add(tempKarnet);
             }
             return lista;
@@ -26,8 +26,8 @@ public class karnetDAO {
         }
     }
 
-    public List<karnet> searchKarnet(String typ) throws Exception {
-        List<karnet> lista = new ArrayList<>();
+    public List<Karnet> searchKarnet(String typ) throws Exception {
+        List<Karnet> lista = new ArrayList<>();
         PreparedStatement myStmt1 = null;
         ResultSet myRs = null;
         try {
@@ -36,7 +36,7 @@ public class karnetDAO {
             myStmt1.setString(1, typ);
             myRs = myStmt1.executeQuery();
             while (myRs.next()) {
-                karnet tempKarnet = convertRowToKarnet(myRs);
+                Karnet tempKarnet = convertRowToKarnet(myRs);
                 lista.add(tempKarnet);
             }
             return lista;
@@ -45,7 +45,7 @@ public class karnetDAO {
         }
     }
 
-    public void addKarnet(karnet karnet) throws Exception {
+    public void addKarnet(Karnet karnet) throws Exception {
         PreparedStatement myStmt2 = null;
         try {
             myStmt2 = Logowanie.myConn.prepareCall("{call dodaj_karnet(?,?,?,?)}");
@@ -59,7 +59,7 @@ public class karnetDAO {
         }
     }
 
-    public void updateKarnet(karnet karnet) throws Exception {
+    public void updateKarnet(Karnet karnet) throws Exception {
         PreparedStatement myStmt3 = null;
         try {
             myStmt3 = Logowanie.myConn.prepareStatement("update karnet set premium=?, cena=?, data_waznosci=?, klient_id=? where id=?");
@@ -85,14 +85,14 @@ public class karnetDAO {
         }
     }
 
-    private karnet convertRowToKarnet(ResultSet myRs) throws SQLException {
+    private Karnet convertRowToKarnet(ResultSet myRs) throws SQLException {
         int id = myRs.getInt("id");
         boolean premium = myRs.getBoolean("premium");
         Date data_waznosci = myRs.getDate("data_waznosci");
         Date data_aktywacji = myRs.getDate("data_aktywacji");
         int klient_id = myRs.getInt("klient_id");
 
-        karnet tempKarnet = new karnet(id, data_waznosci, data_aktywacji,premium,klient_id);
+        Karnet tempKarnet = new Karnet(id, data_waznosci, data_aktywacji,premium,klient_id);
         return tempKarnet;
     }
 }

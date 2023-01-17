@@ -6,10 +6,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class klientDAO {
+public class KlientDAO {
 
-    public List<klient> getAllKlient() throws Exception {
-        List<klient> lista = new ArrayList<>();
+    public List<Klient> getAllKlient() throws Exception {
+        List<Klient> lista = new ArrayList<>();
         Statement myStmt1 = null;
         ResultSet myRs = null;
         try {
@@ -17,7 +17,7 @@ public class klientDAO {
             myRs = myStmt1.executeQuery("select * from klient");
 
             while (myRs.next()){
-                klient tempKlient = convertRowToKlient(myRs);
+                Klient tempKlient = convertRowToKlient(myRs);
                 lista.add(tempKlient);
             }
             return lista;
@@ -26,8 +26,8 @@ public class klientDAO {
         }
     }
 
-    public List<klient> searchKlient(String imie) throws Exception {
-        List<klient> lista = new ArrayList<>();
+    public List<Klient> searchKlient(String imie) throws Exception {
+        List<Klient> lista = new ArrayList<>();
         PreparedStatement myStmt1 = null;
         ResultSet myRs = null;
         try {
@@ -36,14 +36,14 @@ public class klientDAO {
             myStmt1.setString(1, imie);
             myRs = myStmt1.executeQuery();
             while (myRs.next()) {
-                klient tempKlient = convertRowToKlient(myRs);
+                Klient tempKlient = convertRowToKlient(myRs);
                 lista.add(tempKlient);
             }
             return lista;
         } finally {
             myStmt1.close();
         }
-    }public void addKlient(klient klient) throws Exception {
+    }public void addKlient(Klient klient) throws Exception {
         PreparedStatement myStmt2 = null;
         try {
             myStmt2 = Logowanie.myConn.prepareCall("{call dodaj_klient(?,?,?,?,?,?)}");
@@ -59,7 +59,7 @@ public class klientDAO {
         }
     }
 
-    public void updateKlient(klient klient) throws Exception {
+    public void updateKlient(Klient klient) throws Exception {
         PreparedStatement myStmt3 = null;
         try {
             myStmt3 = Logowanie.myConn.prepareStatement("update klient set imie=?, nazwisko=?, pesel=?, data_urodzenia=?, haslo=? where klient_id=?");
@@ -87,14 +87,14 @@ public class klientDAO {
         }
     }
 
-    private klient convertRowToKlient(ResultSet myRs) throws SQLException {
+    private Klient convertRowToKlient(ResultSet myRs) throws SQLException {
         int id = myRs.getInt("klient_id");
         String imie = myRs.getString("imie");
         String nazwisko = myRs.getString("nazwisko");
         long pesel =myRs.getLong("pesel");
         Date data_urodzenia = myRs.getDate("data_urodzenia");
         String haslo = myRs.getString("haslo");
-        klient tempKlient = new klient(id, imie, nazwisko, pesel, data_urodzenia, haslo);
+        Klient tempKlient = new Klient(id, imie, nazwisko, pesel, data_urodzenia, haslo);
         return tempKlient;
     }
 }

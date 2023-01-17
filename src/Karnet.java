@@ -1,19 +1,19 @@
 import java.sql.Date;
-public class karnet {
+public class Karnet {
     int karnet_id;
     Date data_waznosci;
     Date data_aktywacji;
     boolean premium;
     int klient_id;
 
-    public karnet(int karnet_id, Date data_waznosci, Date data_aktywacji, boolean premium, int klient_id) {
+    public Karnet(int karnet_id, Date data_waznosci, Date data_aktywacji, boolean premium, int klient_id) {
         this.karnet_id = karnet_id;
         this.data_waznosci = data_waznosci;
         this.data_aktywacji = data_aktywacji;
         this.premium = premium;
         this.klient_id = klient_id;
     }
-    public karnet() {
+    public Karnet() {
         this.karnet_id = 0;
         data_waznosci = null;
         data_waznosci = null;

@@ -1,31 +1,34 @@
-public class pracownik {
-    int pracownik_id;
+import java.sql.Date;
+public class Klient {
+    int klient_id;
     String imie;
     String nazwisko;
     long pesel;
+    Date data_urodzenia;
     String haslo;
 
-    public pracownik(int pracownik_id, String imie, String nazwisko, long pesel, String haslo) {
-        this.pracownik_id = pracownik_id;
+    public Klient(int klient_id, String imie, String nazwisko, long pesel, Date data_urodzenia, String haslo) {
+        this.klient_id = klient_id;
         this.imie = imie;
         this.nazwisko = nazwisko;
         this.pesel = pesel;
+        this.data_urodzenia = data_urodzenia;
         this.haslo = haslo;
     }
-    public pracownik() {
-        this.pracownik_id = 1;
+    public Klient() {
+        this.klient_id = 0;
         this.imie = "";
         this.nazwisko = "";
-        this.pesel = 123456789101L;
-        this.haslo = "haslo";
+        this.pesel = 0;
+        this.data_urodzenia = null;
+        this.haslo = "";
+    }
+    public int getKlient_id() {
+        return klient_id;
     }
 
-    public int getPracownik_id() {
-        return pracownik_id;
-    }
-
-    public void setPracownik_id(int pracownik_id) {
-        this.pracownik_id = pracownik_id;
+    public void setKlient_id(int klient_id) {
+        this.klient_id = klient_id;
     }
 
     public String getImie() {
@@ -50,6 +53,14 @@ public class pracownik {
 
     public void setPesel(long pesel) {
         this.pesel = pesel;
+    }
+
+    public Date getData_urodzenia() {
+        return data_urodzenia;
+    }
+
+    public void setData_urodzenia(Date data_urodzenia) {
+        this.data_urodzenia = data_urodzenia;
     }
 
     public String getHaslo() {

@@ -1,5 +1,4 @@
 import java.sql.PreparedStatement;
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.SQLException;
@@ -8,8 +7,8 @@ import java.util.List;
 
 public class PracownikDAO {
 
-    public List<pracownik> getAllPracownik() throws Exception {
-        List<pracownik> lista = new ArrayList<>();
+    public List<Pracownik> getAllPracownik() throws Exception {
+        List<Pracownik> lista = new ArrayList<>();
         Statement myStmt1 = null;
         ResultSet myRs = null;
         try {
@@ -17,7 +16,7 @@ public class PracownikDAO {
             myRs = myStmt1.executeQuery("select * from pracownik");
 
             while (myRs.next()){
-                pracownik tempPracownik = convertRowToPracownik(myRs);
+                Pracownik tempPracownik = convertRowToPracownik(myRs);
                 lista.add(tempPracownik);
             }
             return lista;
@@ -27,8 +26,8 @@ public class PracownikDAO {
     }
 
 
-    public List<pracownik> searchPracownik(String imie) throws Exception {
-        List<pracownik> lista = new ArrayList<>();
+    public List<Pracownik> searchPracownik(String imie) throws Exception {
+        List<Pracownik> lista = new ArrayList<>();
         PreparedStatement myStmt1 = null;
         ResultSet myRs = null;
         try {
@@ -37,7 +36,7 @@ public class PracownikDAO {
             myStmt1.setString(1, imie);
             myRs = myStmt1.executeQuery();
             while (myRs.next()) {
-                pracownik tempPracownik = convertRowToPracownik(myRs);
+                Pracownik tempPracownik = convertRowToPracownik(myRs);
                 lista.add(tempPracownik);
             }
             return lista;
@@ -45,7 +44,7 @@ public class PracownikDAO {
             myStmt1.close();
         }
     }
-    public void addPracownik(pracownik pracownik) throws Exception {
+    public void addPracownik(Pracownik pracownik) throws Exception {
         PreparedStatement myStmt2 = null;
         try {
             myStmt2 = Logowanie.myConn.prepareCall("{call dodaj_pracownika(?,?,?,?,?)}");
@@ -59,7 +58,7 @@ public class PracownikDAO {
         }
     }
 
-    public void updatePracownik(pracownik pracownik) throws Exception {
+    public void updatePracownik(Pracownik pracownik) throws Exception {
         PreparedStatement myStmt3 = null;
         try {
             myStmt3 = Logowanie.myConn.prepareStatement("update pracownik set imie=?, nazwisko=?, stanowisko=?, pensja=?, haslo=? where pracownik_id=?");
@@ -85,12 +84,12 @@ public class PracownikDAO {
         }
     }
 
-    private pracownik convertRowToPracownik(ResultSet myRs) throws SQLException {
+    private Pracownik convertRowToPracownik(ResultSet myRs) throws SQLException {
         int id = myRs.getInt("pracownik_id");
         String imie = myRs.getString("imie");
         String nazwisko = myRs.getString("nazwisko");
         long pesel = myRs.getLong("pesel");
         String haslo = myRs.getString("haslo");
-        return new pracownik(id, imie, nazwisko, pesel, haslo);
+        return new Pracownik(id, imie, nazwisko, pesel, haslo);
     }
 }

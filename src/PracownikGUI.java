@@ -1,4 +1,4 @@
-/*import java.awt.*;
+import java.awt.*;
 import java.awt.event.*;
 import java.util.List;
 import javax.swing.*;
@@ -37,12 +37,14 @@ public class PracownikGUI extends JFrame {
     private KarnetDAO karnetDAO;
     private KlientDAO klientDAO;
     private WydarzenieDAO wydarzenieDAO;
+    private ZapisyNaWydarzenieDAO zapisyNaWydarzenieDAO;
 
     public PracownikGUI() {
         try {
             karnetDAO = new KarnetDAO();
             klientDAO = new KlientDAO();
             wydarzenieDAO = new WydarzenieDAO();
+            zapisyNaWydarzenieDAO = new ZapisyNaWydarzenieDAO();
         } catch (Exception exc) {
             JOptionPane.showMessageDialog(this, "Error: " + exc, "Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -143,8 +145,8 @@ public class PracownikGUI extends JFrame {
                 }
                 int id = (int) karnetyTable.getModel().getValueAt(row, 0);
                 try {
-                    Karnet tempKarnet = karnetDAO.pobierzKarnet(id);
-                    EdytujKarnetDialog dialog = new EdytujKarnetDialog(PracownikGUI.this, karnetDAO, tempKarnet, true);
+                    Karnet tempKarnet = karnetDAO.searchKarnet(id);
+                    EdytujKarnetDialog dialog = new EdytujKarnetDialog(PracownikGUI.this, karnetDAO);
                     dialog.setVisible(true);
                 } catch (Exception exc) {
                     JOptionPane.showMessageDialog(PracownikGUI.this, "Error editing karnet: " + exc.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -170,7 +172,7 @@ public class PracownikGUI extends JFrame {
                 int result = JOptionPane.showConfirmDialog(PracownikGUI.this, "Czy na pewno chcesz usunąć wybranego klienta?", "Usuwanie klienta", JOptionPane.YES_NO_OPTION);
                 if (result == JOptionPane.YES_OPTION) {
                     try {
-                        klientDAO.usunKlienta(id);
+                        klientDAO.deleteKlient(id);
                         refreshKlienciView();
                     } catch (Exception exc) {
                         JOptionPane.showMessageDialog(PracownikGUI.this, "Error deleting klient: " + exc.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -188,7 +190,7 @@ public class PracownikGUI extends JFrame {
                 }
                 int id = (int) klienciTable.getModel().getValueAt(row, 0);
                 try {
-                    Klient tempKlient = klientDAO.pobierzKlienta(id);
+                    Klient tempKlient = klientDAO.searchKlient(id);
                     EdytujKlientaDialog dialog = new EdytujKlientaDialog(PracownikGUI.this, klientDAO, tempKlient, true);
                     dialog.setVisible(true);
                 } catch (Exception exc) {
@@ -215,7 +217,7 @@ public class PracownikGUI extends JFrame {
                 int result = JOptionPane.showConfirmDialog(PracownikGUI.this, "Czy na pewno chcesz usunąć wybrane wydarzenie?", "Usuwanie wydarzenia", JOptionPane.YES_NO_OPTION);
                 if (result == JOptionPane.YES_OPTION) {
                     try {
-                        wydarzenieDAO.usunWydarzenie(id);
+                        wydarzenieDAO.deleteWydarzenie(id);
                         refreshWydarzeniaView();
                     } catch (Exception exc) {
                         JOptionPane.showMessageDialog(PracownikGUI.this, "Error deleting wydarzenie: " + exc.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -233,7 +235,7 @@ public class PracownikGUI extends JFrame {
                 }
                 int id = (int) wydarzeniaTable.getModel().getValueAt(row, 0);
                 try {
-                    Wydarzenie tempWydarzenie = wydarzenieDAO.pobierzWydarzenie(id);
+                    Wydarzenie tempWydarzenie = wydarzenieDAO.searchWydarzenie(id);
                     EdytujWydarzenieDialog dialog = new EdytujWydarzenieDialog(PracownikGUI.this, wydarzenieDAO, tempWydarzenie, true);
                     dialog.setVisible(true);
                 } catch (Exception exc) {
@@ -244,13 +246,15 @@ public class PracownikGUI extends JFrame {
 
         zapiszNaWydarzenieButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                int row = klienciTable.getSelectedRow();
-                if (row == -1) {
-                    JOptionPane.showMessageDialog(PracownikGUI.this, "Nie wybrano klienta do zapisu na wydarzenie", "Błąd", JOptionPane.ERROR_MESSAGE);
+                int rowKlienci = klienciTable.getSelectedRow();
+                int rowWydarzenia = wydarzeniaTable.getSelectedRow();
+                if (rowKlienci == -1 || rowWydarzenia == -1) {
+                    JOptionPane.showMessageDialog(PracownikGUI.this, "Nie wybrano klienta lub wydarzenia do zapisu na wydarzenie", "Błąd", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
-                int idKlienta = (int) klienciTable.getModel().getValueAt(row, 0);
-                ZapiszNaWydarzenieDialog dialog = new ZapiszNaWydarzenieDialog(PracownikGUI.this, wydarzenieDAO, idKlienta);
+                int idKlienta = (int) klienciTable.getModel().getValueAt(rowKlienci, 0);
+                int idWydarzenia = (int) wydarzeniaTable.getModel().getValueAt(rowWydarzenia, 0);
+                ZapiszNaWydarzenieDialog dialog = new ZapiszNaWydarzenieDialog(PracownikGUI.this, zapisyNaWydarzenieDAO, idKlienta, idWydarzenia);
                 dialog.setVisible(true);
             }
         });
@@ -262,16 +266,15 @@ public class PracownikGUI extends JFrame {
 
     public void refreshKarnetyView() {
         try {
-            List<Karnet> karnety = karnetDAO.pobierzKarnety();
+            List<Karnet> karnety = karnetDAO.getAllKarnet();
             DefaultTableModel model = (DefaultTableModel) karnetyTable.getModel();
             model.setRowCount(0);
             for (Karnet karnet : karnety) {
                 Object[] row = new Object[5];
-                row[0] = karnet.getId();
-                row[1] = karnet.getTyp();
-                row[2] = karnet.getCena();
-                row[3] = karnet.getDataWaznosci();
-                row[4] = karnet.getIloscWejsc();
+                row[0] = karnet.getKarnet_id();
+                row[1] = karnet.isPremium();
+                row[2] = karnet.getData_aktywacji();
+                row[3] = karnet.getData_waznosci();
                 model.addRow(row);
             }
         } catch (Exception exc) {
@@ -281,15 +284,16 @@ public class PracownikGUI extends JFrame {
 
     public void refreshKlienciView() {
         try {
-            List<Klient> klienci = klientDAO.pobierzKlientow();
+            List<Klient> klienci = klientDAO.getAllKlient();
             DefaultTableModel model = (DefaultTableModel) klienciTable.getModel();
             model.setRowCount(0);
             for ( Klient klient : klienci) {
                 Object[] row = new Object[4];
-                row[0] = klient.getId();
+                row[0] = klient.getKlient_id();
                 row[1] = klient.getImie();
                 row[2] = klient.getNazwisko();
-                row[3] = klient.getDataUrodzenia();
+                row[3] = klient.getPesel();
+                row[4] = klient.getData_urodzenia();
                 model.addRow(row);
             }
         } catch (Exception exc) {
@@ -299,16 +303,14 @@ public class PracownikGUI extends JFrame {
 
     public void refreshWydarzeniaView() {
         try {
-            List<Wydarzenie> wydarzenia = wydarzenieDAO.pobierzWydarzenia();
+            List<Wydarzenie> wydarzenia = wydarzenieDAO.getAllWydarzenie();
             DefaultTableModel model = (DefaultTableModel) wydarzeniaTable.getModel();
             model.setRowCount(0);
             for ( Wydarzenie wydarzenie : wydarzenia) {
                 Object[] row = new Object[5];
-                row[0] = wydarzenie.getId();
-                row[1] = wydarzenie.getNazwa();
-                row[2] = wydarzenie.getData();
-                row[3] = wydarzenie.getMiejsce();
-                row[4] = wydarzenie.getIloscMiejsc();
+                row[0] = wydarzenie.getWydarzenie_id();
+                row[1] = wydarzenie.getData();
+                row[2] = wydarzenie.getTrener_id();
                 model.addRow(row);
             }
         } catch (Exception exc) {
@@ -316,4 +318,3 @@ public class PracownikGUI extends JFrame {
         }
     }
 }
-*/

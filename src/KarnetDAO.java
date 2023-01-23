@@ -26,22 +26,19 @@ public class KarnetDAO {
         }
     }
 
-    public List<Karnet> searchKarnet(String typ) throws Exception {
-        List<Karnet> lista = new ArrayList<>();
-        PreparedStatement myStmt1 = null;
+    public Karnet searchKarnet(int id) throws Exception {
+        PreparedStatement myStmt = null;
         ResultSet myRs = null;
         try {
-            typ += "%";
-            myStmt1 = Logowanie.myConn.prepareStatement("Select * From karnet where typ like ?");
-            myStmt1.setString(1, typ);
-            myRs = myStmt1.executeQuery();
-            while (myRs.next()) {
-                Karnet tempKarnet = convertRowToKarnet(myRs);
-                lista.add(tempKarnet);
+            myStmt = Logowanie.myConn.prepareStatement("Select * From karnet where id = ?");
+            myStmt.setInt(1, id);
+            myRs = myStmt.executeQuery();
+            if (myRs.next()) {
+                return convertRowToKarnet(myRs);
             }
-            return lista;
+            else return null;
         } finally {
-            myStmt1.close();
+            myStmt.close();
         }
     }
 

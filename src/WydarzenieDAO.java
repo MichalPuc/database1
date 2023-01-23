@@ -26,19 +26,18 @@ public class WydarzenieDAO {
         }
     }
 
-    public List<Wydarzenie> searchWydarzenie(Date data) throws Exception {
+    public Wydarzenie searchWydarzenie(int id) throws Exception {
         List<Wydarzenie> lista = new ArrayList<>();
         PreparedStatement myStmt1 = null;
         ResultSet myRs = null;
         try {
             myStmt1 = Logowanie.myConn.prepareStatement("Select * From wydarzenie where data = ?");
-            myStmt1.setDate(1, data);
+            myStmt1.setInt(1, id);
             myRs = myStmt1.executeQuery();
-            while (myRs.next()) {
-                Wydarzenie tempWydarzenie = convertRowToWydarzenie(myRs);
-                lista.add(tempWydarzenie);
+            if (myRs.next()) {
+                return convertRowToWydarzenie(myRs);
             }
-            return lista;
+            else return null;
         } finally {
             myStmt1.close();
         }

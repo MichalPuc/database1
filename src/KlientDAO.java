@@ -26,24 +26,23 @@ public class KlientDAO {
         }
     }
 
-    public List<Klient> searchKlient(String imie) throws Exception {
-        List<Klient> lista = new ArrayList<>();
+    public Klient searchKlient(int id) throws Exception {
         PreparedStatement myStmt1 = null;
         ResultSet myRs = null;
         try {
-            imie += "%";
             myStmt1 = Logowanie.myConn.prepareStatement("Select * From klient where imie like ?");
-            myStmt1.setString(1, imie);
+            myStmt1.setInt(1, id);
             myRs = myStmt1.executeQuery();
-            while (myRs.next()) {
-                Klient tempKlient = convertRowToKlient(myRs);
-                lista.add(tempKlient);
+            if (myRs.next()) {
+                return convertRowToKlient(myRs);
             }
-            return lista;
+            else return null;
         } finally {
             myStmt1.close();
         }
-    }public void addKlient(Klient klient) throws Exception {
+    }
+
+    public void addKlient(Klient klient) throws Exception {
         PreparedStatement myStmt2 = null;
         try {
             myStmt2 = Logowanie.myConn.prepareCall("{call dodaj_klient(?,?,?,?,?,?)}");

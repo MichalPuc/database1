@@ -134,7 +134,7 @@ public class EdytujKlientaDialog extends JDialog {
                     String imie = imieField.getText();
                     String nazwisko = nazwiskoField.getText();
                     long pesel = Long.parseLong(peselField.getText());
-                    Date dataUrodzenia = Date.valueOf(dataUrodzeniaField.getText());
+                    String dataUrodzenia = String.valueOf(dataUrodzeniaField.getText());
                     String haslo = new String(hasloField.getPassword());
                     klient.setKlient_id(klientId);
                     klient.setImie(imie);

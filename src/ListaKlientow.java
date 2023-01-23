@@ -62,7 +62,7 @@ public class ListaKlientow extends JDialog {
             textField.setColumns(10);
         }
         {
-            JButton btnSzukaj = new JButton("Szukaj");
+            JButton btnSzukaj = new JButton("Szukaj id");
             btnSzukaj.setBounds(226, 10, 63, 23);
             btnSzukaj.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {

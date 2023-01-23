@@ -63,8 +63,8 @@ public class DodajKarnetDialog extends JDialog {
         cs.gridy = 2;
         cs.gridwidth = 2;
         cs.insets = new Insets(5, 5, 0, 5);
-
         panel.add(dataWaznosciField, cs);
+
         cs.gridx = 0;
         cs.gridy = 3;
         cs.gridwidth = 1;
@@ -98,9 +98,9 @@ public class DodajKarnetDialog extends JDialog {
             public void actionPerformed(ActionEvent e) {
                 try {
                     int karnetId = Integer.parseInt(karnetIdField.getText());
-                    Date dataWaznosci = Date.valueOf(dataWaznosciField.getText());
-                    Date dataAktywacji = Date.valueOf(dataAktywacjiField.getText());
-                    boolean premium = Boolean.parseBoolean(premiumField.getText());
+                    String dataWaznosci = String.valueOf(dataWaznosciField.getText());
+                    String dataAktywacji = String.valueOf(dataAktywacjiField.getText());
+                    String premium = String.valueOf(premiumField.getText());
                     int klientId = Integer.parseInt(klientIdField.getText());
 
                     Karnet karnet = new Karnet(karnetId, dataWaznosci, dataAktywacji,premium,klientId);

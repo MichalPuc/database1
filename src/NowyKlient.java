@@ -128,10 +128,10 @@ public class NowyKlient extends JDialog {
             tempKlient.setImie(imie);
             tempKlient.setNazwisko(nazwisko);
             tempKlient.setPesel(Long.parseLong(pesel));
-            tempKlient.setData_urodzenia(Date.valueOf(data_urodzenia));
+            tempKlient.setData_urodzenia(String.valueOf(data_urodzenia));
             tempKlient.setHaslo(String.valueOf(haslo));
         } else {
-            tempKlient = new Klient(5,imie,nazwisko,Long.parseLong(pesel),Date.valueOf(data_urodzenia),haslo);
+            tempKlient = new Klient(5,imie,nazwisko,Long.parseLong(pesel),String.valueOf(data_urodzenia),haslo);
         }
         try {
             if (updateMode) {

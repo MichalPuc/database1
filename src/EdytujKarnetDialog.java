@@ -27,94 +27,75 @@ public class EdytujKarnetDialog extends JDialog {
 
     private KarnetDAO karnetDAO;
 
-    public EdytujKarnetDialog(JFrame parent, KarnetDAO karnetDAO) {
-        super(parent, "Edytuj KarnET", true);
+    public EdytujKarnetDialog(JFrame parent, KarnetDAO karnetDAO, int id) {
+        super(parent, "Edytuj Karnet", true);
 
         this.karnetDAO = karnetDAO;
 
-        JPanel panel = new JPanel();
-        panel.setLayout(new GridBagLayout());
+        JFrame frame = new JFrame();
+        frame.setBounds(100, 100, 330, 430);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.getContentPane().setLayout(null);
 
-        GridBagConstraints cs = new GridBagConstraints();
-        cs.gridx = 0;
-        cs.gridy = 0;
-        cs.gridwidth = 1;
-        cs.insets = new Insets(5, 5, 0, 5);
+        JLabel karnetIdLabel = new JLabel("Karnet ID:");
+        karnetIdLabel.setBounds(50, 60, 80, 20);
+        frame.getContentPane().add(karnetIdLabel);
 
-        panel.add(new JLabel("Karnet ID: "), cs);
+        karnetIdField = new JTextField();
+        karnetIdField.setBounds(130, 60, 120, 20);
+        frame.getContentPane().add(karnetIdField);
 
-        karnetIdField = new JTextField(20);
-        cs.gridx = 1;
-        cs.gridy = 0;
-        cs.gridwidth = 2;
-        cs.insets = new Insets(5, 5, 0, 5);
-        panel.add(karnetIdField, cs);
+        JLabel klientIdLabel = new JLabel("Klient ID:");
+        klientIdLabel.setBounds(50, 90, 80, 20);
+        frame.getContentPane().add(klientIdLabel);
 
-        cs.gridx = 0;
-        cs.gridy = 1;
-        cs.gridwidth = 1;
-        cs.insets = new Insets(5, 5, 0, 5);
-        panel.add(new JLabel("Klient ID: "), cs);
+        klientIdField = new JTextField();
+        klientIdField.setBounds(130, 90, 120, 20);
+        frame.getContentPane().add(klientIdField);
 
-        klientIdField = new JTextField(20);
-        cs.gridx = 1;
-        cs.gridy = 1;
-        cs.gridwidth = 2;
-        cs.insets = new Insets(5, 5, 0, 5);
-        panel.add(klientIdField, cs);
+        JLabel dataAktywacjiLabel = new JLabel("Data aktywacji:");
+        dataAktywacjiLabel.setBounds(50, 120, 100, 20);
+        frame.getContentPane().add(dataAktywacjiLabel);
 
-        cs.gridx = 0;
-        cs.gridy = 2;
-        cs.gridwidth = 1;
-        cs.insets = new Insets(5, 5, 0, 5);
-        panel.add(new JLabel("Data aktywacji: "), cs);
+        dataAktywacjiField = new JTextField();
+        dataAktywacjiField.setBounds(130, 120, 120, 20);
+        frame.getContentPane().add(dataAktywacjiField);
 
-        dataAktywacjiField = new JTextField(20);
-        cs.gridx = 1;
-        cs.gridy = 2;
-        cs.gridwidth = 2;
-        cs.insets = new Insets(5, 5, 0, 5);
-        panel.add(dataAktywacjiField, cs);
+        JLabel dataWaznosciLabel = new JLabel("Data ważności:");
+        dataWaznosciLabel.setBounds(50, 150, 100, 20);
+        frame.getContentPane().add(dataWaznosciLabel);
 
-        cs.gridx = 0;
-        cs.gridy = 3;
-        cs.gridwidth = 1;
-        cs.insets = new Insets(5, 5, 0, 5);
-        panel.add(new JLabel("Data ważności: "), cs);
+        dataWaznosciField = new JTextField();
+        dataWaznosciField.setBounds(130, 150, 120, 20);
+        frame.getContentPane().add(dataWaznosciField);
 
-        dataWaznosciField = new JTextField(20);
-        cs.gridx = 1;
-        cs.gridy = 3;
-        cs.gridwidth = 2;
-        cs.insets = new Insets(5, 5, 0, 5);
-        panel.add(dataWaznosciField, cs);
+        JLabel premiumLabel = new JLabel("Premium:");
+        premiumLabel.setBounds(50, 180, 80, 20);
+        frame.getContentPane().add(premiumLabel);
 
-        cs.gridx = 0;
-        cs.gridy = 4;
-        cs.gridwidth = 1;
-        cs.insets = new Insets(5, 5, 0, 5);
-        panel.add(new JLabel("Premium: "), cs);
+        premiumField = new JTextField();
+        premiumField.setBounds(130, 180, 120, 20);
+        frame.getContentPane().add(premiumField);
 
-        premiumField = new JTextField(20);
-        cs.gridx = 1;
-        cs.gridy = 4;
-        cs.gridwidth = 2;
-        cs.insets = new Insets(5, 5, 0, 5);
-        panel.add(premiumField, cs);
+        JButton zapiszButton = new JButton("Zapisz");
+        zapiszButton.setBounds(50, 210, 80, 25);
+        frame.getContentPane().add(zapiszButton);
 
-        JPanel buttonPanel = new JPanel();
+        JButton anulujButton = new JButton("Anuluj");
+        anulujButton.setBounds(180, 210, 80, 25);
+        frame.getContentPane().add(anulujButton);
 
-        zapiszButton = new JButton("Zapisz");
+        frame.setVisible(true);
         zapiszButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 try {
                     int karnetId = Integer.parseInt(karnetIdField.getText());
                     int klientId = Integer.parseInt(klientIdField.getText());
-                    Date dataAktywacji = Date.valueOf(dataAktywacjiField.getText());
-                    Date dataWaznosci = Date.valueOf(dataWaznosciField.getText());
-                    boolean premium = Boolean.parseBoolean(premiumField.getText());
+                    String dataAktywacji = String.valueOf(dataAktywacjiField.getText());
+                    String dataWaznosci = String.valueOf(dataWaznosciField.getText());
+                    String premium = String.valueOf(premiumField.getText());
                     Karnet karnet = new Karnet(karnetId,  dataAktywacji, dataWaznosci, premium,klientId);
-                    karnetDAO.updateKarnet(karnet);
+                    karnetDAO.updateKarnet(karnet,id);
 
                     setVisible(false);
                     dispose();
@@ -135,9 +116,6 @@ public class EdytujKarnetDialog extends JDialog {
             }
         });
 
-        buttonPanel.add(zapiszButton);
-        buttonPanel.add(anulujButton);
-        add(buttonPanel, BorderLayout.SOUTH);
 
         pack();
         setResizable(false);
@@ -149,6 +127,6 @@ public class EdytujKarnetDialog extends JDialog {
         klientIdField.setText(Integer.toString(karnet.getKlient_id()));
         dataAktywacjiField.setText(karnet.getData_aktywacji().toString());
         dataWaznosciField.setText(karnet.getData_waznosci().toString());
-        premiumField.setText(Boolean.toString(karnet.isPremium()));
+        premiumField.setText(karnet.getPremium().toString());
     }
 }

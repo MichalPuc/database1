@@ -78,6 +78,9 @@ public class Logowanie {
                         ResultSet myRs = myStmt.executeQuery();
                         if (myRs.next()) {
                             JOptionPane.showMessageDialog(frame, "Zalogowano jako pracownik");
+                            PracownikGUI pracownikGUI = new PracownikGUI();
+                            pracownikGUI.setVisible(true);
+                            frame.dispose();
                         } else {
                             JOptionPane.showMessageDialog(frame, "Niepoprawny ID lub hasło");
                         }

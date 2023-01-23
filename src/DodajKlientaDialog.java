@@ -126,7 +126,7 @@ public class DodajKlientaDialog extends JDialog {
                     int id =Integer.parseInt(klientIdField.getText());
                     String nazwisko = nazwiskoField.getText();
                     long pesel = Long.parseLong(peselField.getText());
-                    Date dataUrodzenia = Date.valueOf(dataUrodzeniaField.getText());
+                    String dataUrodzenia = String.valueOf(dataUrodzeniaField.getText());
                     String haslo = new String(hasloField.getPassword());
                     Klient klient = new Klient(id,imie, nazwisko, pesel, dataUrodzenia, haslo);
                     klientDAO.addKlient(klient);

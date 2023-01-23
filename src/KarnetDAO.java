@@ -30,7 +30,7 @@ public class KarnetDAO {
         PreparedStatement myStmt = null;
         ResultSet myRs = null;
         try {
-            myStmt = Logowanie.myConn.prepareStatement("Select * From karnet where id = ?");
+            myStmt = Logowanie.myConn.prepareStatement("Select * From karnet where karnet_id = ?");
             myStmt.setInt(1, id);
             myRs = myStmt.executeQuery();
             if (myRs.next()) {
@@ -46,8 +46,8 @@ public class KarnetDAO {
         PreparedStatement myStmt2 = null;
         try {
             myStmt2 = Logowanie.myConn.prepareCall("{call dodaj_karnet(?,?,?,?)}");
-            myStmt2.setBoolean(1, karnet.isPremium());
-            myStmt2.setDate(3, karnet.getData_waznosci());
+            myStmt2.setString(1, karnet.getPremium());
+            myStmt2.setString(3, karnet.getData_waznosci());
             myStmt2.setInt(4, karnet.getKlient_id());
 
             myStmt2.execute();
@@ -56,14 +56,15 @@ public class KarnetDAO {
         }
     }
 
-    public void updateKarnet(Karnet karnet) throws Exception {
+    public void updateKarnet(Karnet karnet, int id ) throws Exception {
         PreparedStatement myStmt3 = null;
         try {
-            myStmt3 = Logowanie.myConn.prepareStatement("update karnet set premium=?, cena=?, data_waznosci=?, klient_id=? where id=?");
-            myStmt3.setBoolean(1, karnet.isPremium());
-            myStmt3.setDate(3, karnet.getData_waznosci());
+            myStmt3 = Logowanie.myConn.prepareStatement("update karnet set rodzaj=?, data_waznosci=?,data_aktywacji=?, klient_klient_id=? where karnet_id=?");
+            myStmt3.setString(1, karnet.getPremium());
+            myStmt3.setString(3, karnet.getData_waznosci());
+            myStmt3.setString(2, karnet.getData_aktywacji());
             myStmt3.setInt(4, karnet.getKlient_id());
-            myStmt3.setInt(5, karnet.getKarnet_id());
+            myStmt3.setInt(5, id);
 
             myStmt3.executeUpdate();
         } finally {
@@ -74,7 +75,7 @@ public class KarnetDAO {
     public void deleteKarnet(int id) throws Exception {
         PreparedStatement myStmt4 = null;
         try {
-            myStmt4 = Logowanie.myConn.prepareStatement("delete from karnet where id=?");
+            myStmt4 = Logowanie.myConn.prepareStatement("delete from karnet where karnet_id=?");
             myStmt4.setInt(1, id);
             myStmt4.executeUpdate();
         } finally {
@@ -83,11 +84,11 @@ public class KarnetDAO {
     }
 
     private Karnet convertRowToKarnet(ResultSet myRs) throws SQLException {
-        int id = myRs.getInt("id");
-        boolean premium = myRs.getBoolean("premium");
-        Date data_waznosci = myRs.getDate("data_waznosci");
-        Date data_aktywacji = myRs.getDate("data_aktywacji");
-        int klient_id = myRs.getInt("klient_id");
+        int id = myRs.getInt("karnet_id");
+        String premium = myRs.getString("rodzaj");
+        String data_waznosci = myRs.getString("data_waznosci");
+        String data_aktywacji = myRs.getString("data_aktywacji");
+        int klient_id = myRs.getInt("klient_klient_id");
 
         Karnet tempKarnet = new Karnet(id, data_waznosci, data_aktywacji,premium,klient_id);
         return tempKarnet;

@@ -17,7 +17,7 @@ import javax.swing.JTextField;
 public class EdytujWydarzenieDialog extends JDialog {
 
     private JTextField wydarzenieIdField;
-    private JCheckBox rodzajCheckBox;
+    private JTextField rodzajField;
     private JTextField dataField;
     private JTextField trenerIdField;
     private JButton zapiszButton;
@@ -57,13 +57,13 @@ public class EdytujWydarzenieDialog extends JDialog {
         cs.insets = new Insets(5, 5, 0, 5);
         panel.add(new JLabel("Rodzaj: "), cs);
 
-        rodzajCheckBox = new JCheckBox();
-        rodzajCheckBox.setSelected(wydarzenie.isRodzaj());
+        rodzajField = new JTextField();
+        rodzajField.setText(wydarzenie.getRodzaj());
         cs.gridx = 1;
         cs.gridy = 1;
         cs.gridwidth = 2;
         cs.insets = new Insets(5, 5, 0, 5);
-        panel.add(rodzajCheckBox, cs);
+        panel.add(rodzajField, cs);
 
         cs.gridx = 0;
         cs.gridy = 2;
@@ -100,8 +100,8 @@ public class EdytujWydarzenieDialog extends JDialog {
             public void actionPerformed(ActionEvent e) {
                 try {
                     int wydarzenieId = Integer.parseInt(wydarzenieIdField.getText());
-                    boolean rodzaj = rodzajCheckBox.isSelected();
-                    Date data = Date.valueOf(dataField.getText());
+                    String rodzaj = String.valueOf(rodzajField.getText());
+                    String data = String.valueOf(dataField.getText());
                     int trenerId = Integer.parseInt(trenerIdField.getText());
                     wydarzenie.setWydarzenie_id(wydarzenieId);
                     wydarzenie.setRodzaj(rodzaj);

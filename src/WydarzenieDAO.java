@@ -47,8 +47,8 @@ public class WydarzenieDAO {
         PreparedStatement myStmt2 = null;
         try {
             myStmt2 = Logowanie.myConn.prepareCall("{call dodaj_wydarzenie(?,?,?,?)}");
-            myStmt2.setBoolean(1, wydarzenie.isRodzaj());
-            myStmt2.setDate(2, wydarzenie.getData());
+            myStmt2.setString(1, wydarzenie.getRodzaj());
+            myStmt2.setString(2, wydarzenie.getData());
             myStmt2.setInt(3, wydarzenie.getTrener_id());
             myStmt2.execute();
         } finally {
@@ -60,8 +60,8 @@ public class WydarzenieDAO {
         PreparedStatement myStmt3 = null;
         try {
             myStmt3 = Logowanie.myConn.prepareStatement("update wydarzenie set rodzaj=?, data=?, trener_id=? where wydarzenie_id=?");
-            myStmt3.setBoolean(1, wydarzenie.isRodzaj());
-            myStmt3.setDate(2, wydarzenie.getData());
+            myStmt3.setString(1, wydarzenie.getRodzaj());
+            myStmt3.setString(2, wydarzenie.getData());
             myStmt3.setInt(3, wydarzenie.getTrener_id());
             myStmt3.setInt(4, wydarzenie.getWydarzenie_id());
             myStmt3.executeUpdate();
@@ -83,9 +83,9 @@ public class WydarzenieDAO {
 
     private Wydarzenie convertRowToWydarzenie(ResultSet myRs) throws SQLException {
         int wydarzenie_id = myRs.getInt("wydarzenie_id");
-        boolean rodzaj = myRs.getBoolean("rodzaj");
-        Date data = myRs.getDate("data");
-        int trener_id = myRs.getInt("trener_id");
+        String rodzaj = myRs.getString("rodzaj");
+        String data = myRs.getString("data");
+        int trener_id = myRs.getInt("trener_trener_id");
 
         Wydarzenie tempWydarzenie = new Wydarzenie(wydarzenie_id, rodzaj, data, trener_id);
 

@@ -1,11 +1,11 @@
 import java.sql.Date;
 public class Wydarzenie {
     int wydarzenie_id;
-    boolean rodzaj;
-    Date data;
+    String rodzaj;
+    String data;
     int trener_id;
 
-    public Wydarzenie(int wydarzenie_id, boolean rodzaj, Date data, int trener_id) {
+    public Wydarzenie(int wydarzenie_id, String rodzaj, String data, int trener_id) {
         this.wydarzenie_id = wydarzenie_id;
         this.rodzaj = rodzaj;
         this.data = data;
@@ -13,7 +13,7 @@ public class Wydarzenie {
     }
     public Wydarzenie() {
         this.wydarzenie_id = 0;
-        this.rodzaj = false;
+        this.rodzaj = null;
         this.data = null;
         this.trener_id = 0;
     }
@@ -26,19 +26,19 @@ public class Wydarzenie {
         this.wydarzenie_id = wydarzenie_id;
     }
 
-    public boolean isRodzaj() {
+    public String getRodzaj() {
         return rodzaj;
     }
 
-    public void setRodzaj(boolean rodzaj) {
+    public void setRodzaj(String rodzaj) {
         this.rodzaj = rodzaj;
     }
 
-    public Date getData() {
+    public String getData() {
         return data;
     }
 
-    public void setData(Date data) {
+    public void setData(String data) {
         this.data = data;
     }
 

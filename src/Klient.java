@@ -4,10 +4,10 @@ public class Klient {
     String imie;
     String nazwisko;
     long pesel;
-    Date data_urodzenia;
+    String data_urodzenia;
     String haslo;
 
-    public Klient(int klient_id, String imie, String nazwisko, long pesel, Date data_urodzenia, String haslo) {
+    public Klient(int klient_id, String imie, String nazwisko, long pesel, String data_urodzenia, String haslo) {
         this.klient_id = klient_id;
         this.imie = imie;
         this.nazwisko = nazwisko;
@@ -55,11 +55,11 @@ public class Klient {
         this.pesel = pesel;
     }
 
-    public Date getData_urodzenia() {
+    public String getData_urodzenia() {
         return data_urodzenia;
     }
 
-    public void setData_urodzenia(Date data_urodzenia) {
+    public void setData_urodzenia(String data_urodzenia) {
         this.data_urodzenia = data_urodzenia;
     }
 

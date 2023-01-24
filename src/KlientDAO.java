@@ -100,7 +100,7 @@ public class KlientDAO {
     public void addKlient(Klient klient) throws Exception {
         PreparedStatement myStmt2 = null;
         try {
-            myStmt2 = Logowanie.myConn.prepareCall("\"INSERT INTO klient (imie, nazwisko, pesel, data_urodzenia, haslo) VALUES (?,?,?,?,?)\"");
+            myStmt2 = Logowanie.myConn.prepareCall("insert klient set klient_id=?,imie=?, nazwisko=?, pesel=?, data_urodzenia=?, haslo=?");
             myStmt2.setInt(1, klient.getKlient_id());
             myStmt2.setString(2, klient.getImie());
             myStmt2.setString(3, klient.getNazwisko());
@@ -134,6 +134,12 @@ public class KlientDAO {
     public void deleteKlient(int id) throws Exception {
         PreparedStatement myStmt4 = null;
         try {
+            myStmt4 = Logowanie.myConn.prepareStatement("delete from zapisy_na_wydarzenia where klient_klient_id=?");
+            myStmt4.setInt(1, id);
+            myStmt4.executeUpdate();
+            myStmt4 = Logowanie.myConn.prepareStatement("delete from karnet where klient_klient_id=?");
+            myStmt4.setInt(1, id);
+            myStmt4.executeUpdate();
             myStmt4 = Logowanie.myConn.prepareStatement("delete from klient where klient_id=?");
             myStmt4.setInt(1, id);
             myStmt4.executeUpdate();

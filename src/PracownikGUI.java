@@ -38,6 +38,7 @@ public class PracownikGUI extends JFrame {
     private KlientDAO klientDAO;
     private WydarzenieDAO wydarzenieDAO;
     private ZapisyNaWydarzenieDAO zapisyNaWydarzenieDAO;
+    private ZapisyNaWydarzenie zapisyNaWydarzenie;
 
     public PracownikGUI() {
         try {
@@ -69,15 +70,31 @@ public class PracownikGUI extends JFrame {
         edytujWydarzenieButton = new JButton("Edytuj WYDARZENIE");
         zapiszNaWydarzenieButton = new JButton("Zapiszna WYDARZENIE");
         karnetyTable = new JTable();
+        klienciTable = new JTable();
+        wydarzeniaTable = new JTable();
         karnetyTable.setModel(new DefaultTableModel(
                 new Object[][] {
                 },
                 new String[] {
-                        "ID", "Premium", "Data aktywacji", "Data ważności"
+                        "ID", "Premium", "Data aktywacji", "Data ważności","ID Klienta"
                 }
         ));
-        klienciTable = new JTable();
-        wydarzeniaTable = new JTable();
+        klienciTable.setModel(new DefaultTableModel(
+                new Object[][] {
+                },
+                new String[] {
+                        "ID", "Imię", "Nazwisko","Pesel", "Data urodzenia"
+                }
+        ));
+
+        wydarzeniaTable.setModel(new DefaultTableModel(
+                new Object[][] {
+                },
+                new String[] {
+                        "ID","Rodzaj",  "Data", "ID Trenera"
+                }
+        ));
+
 
 // KarnETY PANEL
         karnetyPanel.setLayout(new BorderLayout());
@@ -118,8 +135,9 @@ public class PracownikGUI extends JFrame {
 
         dodajKarnetButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                DodajKarnetDialog dialog = new DodajKarnetDialog(PracownikGUI.this,karnetDAO);
-                dialog.setVisible(true);
+
+                DodajKarnetDialog dialog = new DodajKarnetDialog(karnetDAO);
+                refreshKarnetyView();
             }
         });
 
@@ -152,8 +170,8 @@ public class PracownikGUI extends JFrame {
                 }
                 int id = (int) karnetyTable.getModel().getValueAt(row, 0);
                 try {
-                    EdytujKarnetDialog dialog = new EdytujKarnetDialog(PracownikGUI.this, karnetDAO,id);
-                    dialog.setVisible(true);
+                    EdytujKarnetDialog dialog = new EdytujKarnetDialog( karnetDAO,id);
+                    refreshKarnetyView();
                 } catch (Exception exc) {
                     JOptionPane.showMessageDialog(PracownikGUI.this, "Error editing karnet: " + exc.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                 }
@@ -163,6 +181,7 @@ public class PracownikGUI extends JFrame {
         dodajKlientaButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 DodajKlientaDialog dialog = new DodajKlientaDialog(PracownikGUI.this, klientDAO);
+                refreshKlienciView();
                 dialog.setVisible(true);
             }
         });
@@ -180,6 +199,7 @@ public class PracownikGUI extends JFrame {
                     try {
                         klientDAO.deleteKlient(id);
                         refreshKlienciView();
+                        setVisible(true);
                     } catch (Exception exc) {
                         JOptionPane.showMessageDialog(PracownikGUI.this, "Error deleting klient: " + exc.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                     }
@@ -198,7 +218,7 @@ public class PracownikGUI extends JFrame {
                 try {
                     Klient tempKlient = (klientDAO.selectKlient(nazwisko));
                     EdytujKlientaDialog dialog = new EdytujKlientaDialog(PracownikGUI.this, klientDAO, tempKlient, true);
-                    dialog.setVisible(true);
+                    refreshKlienciView();
                 } catch (Exception exc) {
                     JOptionPane.showMessageDialog(PracownikGUI.this, "Error editing klient: " + exc.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                 }
@@ -260,8 +280,12 @@ public class PracownikGUI extends JFrame {
                 }
                 int idKlienta = (int) klienciTable.getModel().getValueAt(rowKlienci, 0);
                 int idWydarzenia = (int) wydarzeniaTable.getModel().getValueAt(rowWydarzenia, 0);
-                ZapiszNaWydarzenieDialog dialog = new ZapiszNaWydarzenieDialog(PracownikGUI.this, zapisyNaWydarzenieDAO, idKlienta, idWydarzenia);
-                dialog.setVisible(true);
+                ZapisyNaWydarzenie zapis = new ZapisyNaWydarzenie(idKlienta,idWydarzenia);
+                try {
+                    zapisyNaWydarzenieDAO.addZapisyNaWydarzenie(zapis);
+                } catch (Exception ex) {
+                    throw new RuntimeException(ex);
+                }
             }
         });
         setVisible(true);
@@ -281,6 +305,7 @@ public class PracownikGUI extends JFrame {
                 row[1] = karnet.getPremium();
                 row[2] = karnet.getData_aktywacji();
                 row[3] = karnet.getData_waznosci();
+                row[4] = karnet.getKlient_id();
                 model.addRow(row);
             }
         } catch (Exception exc) {
@@ -294,7 +319,7 @@ public class PracownikGUI extends JFrame {
             DefaultTableModel model = (DefaultTableModel) klienciTable.getModel();
             model.setRowCount(0);
             for ( Klient klient : klienci) {
-                Object[] row = new Object[4];
+                Object[] row = new Object[5];
                 row[0] = klient.getKlient_id();
                 row[1] = klient.getImie();
                 row[2] = klient.getNazwisko();

@@ -45,10 +45,12 @@ public class KarnetDAO {
     public void addKarnet(Karnet karnet) throws Exception {
         PreparedStatement myStmt2 = null;
         try {
-            myStmt2 = Logowanie.myConn.prepareCall("{call dodaj_karnet(?,?,?,?)}");
+            myStmt2 = Logowanie.myConn.prepareCall("insert karnet set rodzaj=?, data_waznosci=?,data_aktywacji=?, klient_klient_id=?, karnet_id=?");
             myStmt2.setString(1, karnet.getPremium());
             myStmt2.setString(3, karnet.getData_waznosci());
+            myStmt2.setString(2, karnet.getData_aktywacji());
             myStmt2.setInt(4, karnet.getKlient_id());
+            myStmt2.setInt(5, karnet.getKarnet_id());
 
             myStmt2.execute();
         } finally {

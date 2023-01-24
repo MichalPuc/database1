@@ -27,8 +27,7 @@ public class EdytujKarnetDialog extends JDialog {
 
     private KarnetDAO karnetDAO;
 
-    public EdytujKarnetDialog(JFrame parent, KarnetDAO karnetDAO, int id) {
-        super(parent, "Edytuj Karnet", true);
+    public EdytujKarnetDialog(KarnetDAO karnetDAO, int id) {
 
         this.karnetDAO = karnetDAO;
 
@@ -109,7 +108,7 @@ public class EdytujKarnetDialog extends JDialog {
         });
 
         anulujButton = new JButton("Anuluj");
-        anulujButton.addActionListener(new ActionListener() {
+        anulujButton.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e) {
                 setVisible(false);
                 dispose();
@@ -119,7 +118,6 @@ public class EdytujKarnetDialog extends JDialog {
 
         pack();
         setResizable(false);
-        setLocationRelativeTo(parent);
     }
 
     public void setKarnet(Karnet karnet) {
